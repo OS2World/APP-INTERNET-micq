@@ -1,0 +1,35 @@
+# Anyone who knows how to make Makefiles please help out.
+# I have no clue but this appears to work fairly well
+# be sure to use gmake
+CC = gcc
+CFLAGS = -Wall -DUNIX 
+#CFLAGS = -O2 -Wall -DUNIX 
+# Uncomment the below line for humorous messages
+#CFLAGS += -DFUNNY_MSGS 
+# uncomment the line below for debuging info
+#CFLAGS += -g
+CLIBS = -lreadline 
+#uncomment the line below if your using Solaris
+#CLIBS= -lnsl -lsocket
+# switch the comments on the lines below if you're using a
+# motorola or other bigendian processor
+CFLAGS += -DINTEL_END -UMOTOR_END -I/usr/include/readline
+#CFLAGS += -UINTEL_END -DMOTOR_END
+OBJS =micq.o icq_response.o sendmsg.o util.o ui.o rus_conv.o rl_support.o
+HEADERS = datatype.h micq.h rl_support.h
+#
+EXE = micq
+#
+
+all : $(EXE)
+
+re : clean all
+
+$(EXE): ${OBJS} ${HEADERS} 
+	$(CC) ${CFLAGS} -o $(EXE) ${OBJS} $(CLIBS) 
+
+${OBJS} : ${HEADERS}
+
+clean :
+	rm -f ${OBJS} ${EXE}
+
